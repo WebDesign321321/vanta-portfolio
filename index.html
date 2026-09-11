@@ -91,8 +91,20 @@
   .brand-mark .dot{width:8px;height:8px;border-radius:50%;background:var(--ice-500);box-shadow:0 0 12px 2px rgba(79,210,255,.7);}
   .brand-mark strong{font-family:var(--font-display);font-weight:800;font-size:17px;letter-spacing:.04em;color:var(--spark-100);}
 
+  .top-right-cluster{position:fixed;top:18px;right:20px;z-index:70;display:flex;align-items:center;gap:10px;}
+  .lang-switch{
+    display:flex;gap:2px;background:rgba(255,255,255,.04);border:1px solid var(--void-700);
+    border-radius:999px;padding:5px;backdrop-filter:blur(12px);
+  }
+  .lang-switch button{
+    font-family:var(--font-mono);font-size:11.5px;font-weight:600;color:var(--spark-600);
+    padding:7px 10px;border-radius:999px;transition:color .25s ease,background .25s ease;
+  }
+  .lang-switch button:hover{color:var(--spark-100);}
+  .lang-switch button.is-active{color:var(--spark-100);background:rgba(255,255,255,.09);}
+
   .cta-fab{
-    position:fixed;top:18px;right:20px;z-index:70;
+    position:static;z-index:70;
     display:flex;align-items:center;gap:8px;
     background:linear-gradient(135deg, var(--ice-400), var(--ice-700));
     color:#031014;font-family:var(--font-body);font-weight:700;font-size:13px;
@@ -237,14 +249,19 @@
   @keyframes railScroll{ from{transform:translateY(0);} to{transform:translateY(-50%);} }
   .rail-card{
     border-radius:12px;overflow:hidden;border:1px solid var(--void-700);flex:none;
+    transition:border-color .3s ease;
   }
-  .rail-chrome{display:flex;gap:5px;padding:8px 10px;background:rgba(0,0,0,.35);}
+  .rail-chrome{display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(0,0,0,.35);}
   .rail-chrome i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);display:block;}
-  .rail-canvas{height:88px;position:relative;overflow:hidden;background:var(--pbg);}
-  .rail-blob{position:absolute;top:-30%;right:-15%;width:70%;height:140%;background:radial-gradient(circle, var(--p1), transparent 65%);opacity:.5;filter:blur(5px);}
-  .rail-line{height:7px;border-radius:3px;background:linear-gradient(90deg,var(--p1),var(--p2));position:absolute;left:14px;}
-  .rail-line.w1{top:16px;width:60%;}
-  .rail-line.w2{top:30px;width:40%;opacity:.75;}
+  .rail-chrome span{font-family:var(--font-mono);font-size:10px;color:var(--spark-600);margin-left:2px;}
+  .rail-canvas{height:132px;position:relative;overflow:hidden;background:var(--pbg);}
+  .rail-canvas img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .rail-canvas::after{
+    content:"";position:absolute;inset:0;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    background:linear-gradient(180deg, transparent 60%, rgba(5,5,6,.55));
+    pointer-events:none;
+  }
 
   /* ============ MANIFESTO (services, numbered rows) ============ */
   .manifesto{border-top:1px solid var(--void-700);}
@@ -284,10 +301,14 @@
     transition:background .3s var(--ease-out), color .3s var(--ease-out);
   }
   .case-tab-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));flex:none;}
-  .case-tab.is-active{background:rgba(255,255,255,.09);color:var(--spark-100);}
+  .case-tab.is-active{background:rgba(255,255,255,.07);color:var(--spark-100);box-shadow:0 0 0 1px var(--p1) inset;}
   .case-stage{display:grid;grid-template-columns:1.6fr 1fr;gap:32px;align-items:start;}
   @media (max-width:900px){ .case-stage{grid-template-columns:1fr;} }
-  .case-frame{border-radius:18px;border:1px solid var(--void-700);background:var(--void-900);overflow:hidden;}
+  .case-frame{
+    border-radius:18px;border:1px solid var(--void-700);background:var(--void-900);overflow:hidden;
+    transition:border-color .5s ease, box-shadow .5s ease;
+  }
+  .case-frame.is-tinted{border-color:var(--p1);box-shadow:0 32px 70px -38px var(--p1);}
   .case-frame-chrome{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06);}
   .cf-dots{display:flex;gap:5px;flex:none;}
   .cf-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);display:block;}
@@ -374,20 +395,27 @@
     <span class="intro-word" id="introWord">VANTA</span>
   </div>
   <div class="intro-line"></div>
-  <div class="intro-tag">Веб-студия · Казахстан</div>
-  <div class="intro-skip">нажмите, чтобы пропустить</div>
+  <div class="intro-tag" data-i18n="common.tagline">Веб-студия · Казахстан</div>
+  <div class="intro-skip" data-i18n="intro.skip">нажмите, чтобы пропустить</div>
 </div>
 
 <a href="#top" class="brand-mark"><span class="dot"></span><strong>VANTA</strong></a>
 <nav class="section-nav" aria-label="Разделы">
-  <a href="#services" data-section="services">Услуги</a>
-  <a href="#portfolio" data-section="portfolio">Портфолио</a>
-  <a href="#process" data-section="process">Процесс</a>
+  <a href="#services" data-section="services" data-i18n="nav.services">Услуги</a>
+  <a href="#portfolio" data-section="portfolio" data-i18n="nav.portfolio">Портфолио</a>
+  <a href="#process" data-section="process" data-i18n="nav.process">Процесс</a>
 </nav>
-<a class="cta-fab" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5c1.5.9 3.3 1.4 5.2 1.4 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.1c-1.6 0-3.2-.5-4.5-1.3l-.3-.2-3.1 1 1-3-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5zm4.6-6.3c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.4-1.9-.1-.2 0-.4.1-.5.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10.2 9.4 9.7 8.2 9.5 7.7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
-  <span class="fab-label">WhatsApp</span>
-</a>
+<div class="top-right-cluster">
+  <div class="lang-switch" role="group" aria-label="Язык" id="langSwitch">
+    <button type="button" data-lang="ru" class="is-active">RU</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="kz">KZ</button>
+  </div>
+  <a class="cta-fab" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5c1.5.9 3.3 1.4 5.2 1.4 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.1c-1.6 0-3.2-.5-4.5-1.3l-.3-.2-3.1 1 1-3-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5zm4.6-6.3c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.4-1.9-.1-.2 0-.4.1-.5.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10.2 9.4 9.7 8.2 9.5 7.7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+    <span class="fab-label">WhatsApp</span>
+  </a>
+</div>
 <div class="scroll-rail"><div class="scroll-rail-fill" id="rail-fill"></div></div>
 
 <main id="top">
@@ -396,117 +424,101 @@
       <div>
         <div class="hero-status">
           <span class="status-dot"></span>
-          Веб-студия · Казахстан
+          <span data-i18n="common.tagline">Веб-студия · Казахстан</span>
         </div>
-        <h1>Сайты, которые<br><em>не выглядят как все</em></h1>
-        <p class="prose">Пока одни неделями ждут типовой шаблон с конструктора, мы за 3–5 дней собираем лендинг с настоящим характером — под вашу нишу, а не под чужую библиотеку блоков.</p>
+        <h1 data-i18n-html="hero.h1">Сайты, которые<br><em>не выглядят как все</em></h1>
+        <p class="prose" data-i18n="hero.prose">Пока одни неделями ждут типовой шаблон с конструктора, мы за 3–5 дней собираем лендинг с настоящим характером — под вашу нишу, а не под чужую библиотеку блоков.</p>
         <div class="hero-ctas">
-          <a class="btn btn-ice" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener">Написать в WhatsApp</a>
-          <a class="btn btn-ghost" href="#portfolio">Смотреть портфолио</a>
+          <a class="btn btn-ice" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener" data-i18n="common.whatsapp">Написать в WhatsApp</a>
+          <a class="btn btn-ghost" href="#portfolio" data-i18n="hero.cta2">Смотреть портфолио</a>
         </div>
         <div class="hero-bignum">
           <span class="num">6</span>
-          <span class="label">готовых прототипов под разные ниши бизнеса</span>
+          <span class="label" data-i18n="hero.bignum.label">готовых прототипов под разные ниши бизнеса</span>
         </div>
       </div>
-      <div class="preview-rail" aria-hidden="true">
-        <div class="preview-rail-track">
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#0a1420;--p1:#3ed9e8;--p2:#1aa6b8;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#121417;--p1:#ffb020;--p2:#d68c0a;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#120e0b;--p1:#c7a25c;--p2:#8a1f2b;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#0a1412;--p1:#4fe0c2;--p2:#1fa98a;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#0a0a0b;--p1:#ff1f3d;--p2:#c2102a;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#ededE7;--p1:#8a9d5e;--p2:#454f2c;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <!-- duplicated for seamless loop -->
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#0a1420;--p1:#3ed9e8;--p2:#1aa6b8;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#121417;--p1:#ffb020;--p2:#d68c0a;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#120e0b;--p1:#c7a25c;--p2:#8a1f2b;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#0a1412;--p1:#4fe0c2;--p2:#1fa98a;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#0a0a0b;--p1:#ff1f3d;--p2:#c2102a;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-          <div class="rail-card"><div class="rail-chrome"><i></i><i></i><i></i></div><div class="rail-canvas" style="--pbg:#ededE7;--p1:#8a9d5e;--p2:#454f2c;"><div class="rail-blob"></div><div class="rail-line w1"></div><div class="rail-line w2"></div></div></div>
-        </div>
-      </div>
+      <div class="preview-rail" aria-hidden="true" id="previewRail"></div>
     </div>
   </section>
 
   <section id="services">
     <div class="wrap">
       <div class="section-head fx-up">
-        <div class="eyebrow">Услуги</div>
-        <h2>Что вы получаете</h2>
-        <p class="prose">Финальная стоимость — после короткого брифа в WhatsApp: зависит от объёма и того, что именно нужно клиенту. Ниже — стартовые цены. Нажмите на пункт, чтобы раскрыть детали.</p>
+        <div class="eyebrow" data-i18n="nav.services">Услуги</div>
+        <h2 data-i18n="services.h2">Что вы получаете</h2>
+        <p class="prose" data-i18n="services.prose">Финальная стоимость — после короткого брифа в WhatsApp: зависит от объёма и того, что именно нужно клиенту. Ниже — стартовые цены. Нажмите на пункт, чтобы раскрыть детали.</p>
       </div>
       <div class="manifesto fx-up" id="manifesto">
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">01</span>
-            <span class="m-title">Лендинг</span>
-            <span class="m-price">от 25 000 ₸</span>
+            <span class="m-title" data-i18n="svc.landing.title">Лендинг</span>
+            <span class="m-price" data-i18n="svc.landing.price">от 25 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
-            <ul><li>Дизайн-концепт под вашу нишу</li><li>Анимации и адаптив под телефон</li><li>Кнопка WhatsApp / форма заявки</li><li>1 бесплатная правка</li></ul>
-            <span class="m-time">3–5 дней · цена зависит от объёма</span>
+            <ul><li data-i18n="svc.landing.item1">Дизайн-концепт под вашу нишу</li><li data-i18n="svc.landing.item2">Анимации и адаптив под телефон</li><li data-i18n="svc.landing.item3">Кнопка WhatsApp / форма заявки</li><li data-i18n="svc.landing.item4">1 бесплатная правка</li></ul>
+            <span class="m-time" data-i18n="svc.landing.time">3–5 дней · цена зависит от объёма</span>
           </div></div></div>
         </div>
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">02</span>
-            <span class="m-title">Многостраничный сайт</span>
-            <span class="m-price">от 50 000 ₸</span>
+            <span class="m-title" data-i18n="svc.multi.title">Многостраничный сайт</span>
+            <span class="m-price" data-i18n="svc.multi.price">от 50 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
-            <ul><li>Несколько страниц и разделов</li><li>Каталог услуг/товаров</li><li>SEO-базовая настройка</li></ul>
-            <span class="m-time">7–10 дней · цена зависит от объёма</span>
+            <ul><li data-i18n="svc.multi.item1">Несколько страниц и разделов</li><li data-i18n="svc.multi.item2">Каталог услуг/товаров</li><li data-i18n="svc.multi.item3">SEO-базовая настройка</li></ul>
+            <span class="m-time" data-i18n="svc.multi.time">7–10 дней · цена зависит от объёма</span>
           </div></div></div>
         </div>
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">03</span>
-            <span class="m-title">Telegram-бот / автоматизация</span>
-            <span class="m-price">от 25 000 ₸</span>
+            <span class="m-title" data-i18n="svc.bot.title">Telegram-бот / автоматизация</span>
+            <span class="m-price" data-i18n="svc.bot.price">от 25 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
-            <ul><li>Приём заявок, уведомления</li><li>Интеграция с таблицей/CRM</li><li>Под ваш конкретный сценарий</li></ul>
-            <span class="m-time">по ТЗ</span>
+            <ul><li data-i18n="svc.bot.item1">Приём заявок, уведомления</li><li data-i18n="svc.bot.item2">Интеграция с таблицей/CRM</li><li data-i18n="svc.bot.item3">Под ваш конкретный сценарий</li></ul>
+            <span class="m-time" data-i18n="svc.bot.time">по ТЗ</span>
           </div></div></div>
         </div>
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">04</span>
-            <span class="m-title">Интернет-магазин</span>
-            <span class="m-price">от 100 000 ₸</span>
+            <span class="m-title" data-i18n="svc.shop.title">Интернет-магазин</span>
+            <span class="m-price" data-i18n="svc.shop.price">от 100 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
-            <ul><li>Каталог, корзина, оплата</li><li>Админка для управления товарами</li></ul>
-            <span class="m-time">10–14 дней</span>
+            <ul><li data-i18n="svc.shop.item1">Каталог, корзина, оплата</li><li data-i18n="svc.shop.item2">Админка для управления товарами</li></ul>
+            <span class="m-time" data-i18n="svc.shop.time">10–14 дней</span>
           </div></div></div>
         </div>
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">05</span>
-            <span class="m-title">Помощь с доменом</span>
-            <span class="m-price">3 000–5 000 ₸</span>
+            <span class="m-title" data-i18n="svc.domain.title">Помощь с доменом</span>
+            <span class="m-price" data-i18n="svc.domain.price">3 000–5 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
-            <ul><li>Подбор и покупка домена</li><li>Настройка и подключение к сайту</li></ul>
-            <span class="m-time">бесплатно в пакете</span>
+            <ul><li data-i18n="svc.domain.item1">Подбор и покупка домена</li><li data-i18n="svc.domain.item2">Настройка и подключение к сайту</li></ul>
+            <span class="m-time" data-i18n="svc.domain.time">бесплатно в пакете</span>
           </div></div></div>
         </div>
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">06</span>
-            <span class="m-title">Редизайн / правки</span>
-            <span class="m-price">по договорённости</span>
+            <span class="m-title" data-i18n="svc.redesign.title">Редизайн / правки</span>
+            <span class="m-price" data-i18n="svc.redesign.price">по договорённости</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
-            <ul><li>Обновление существующего сайта</li><li>Новые анимации и разделы</li></ul>
-            <span class="m-time">1–3 дня</span>
+            <ul><li data-i18n="svc.redesign.item1">Обновление существующего сайта</li><li data-i18n="svc.redesign.item2">Новые анимации и разделы</li></ul>
+            <span class="m-time" data-i18n="svc.redesign.time">1–3 дня</span>
           </div></div></div>
         </div>
       </div>
@@ -516,9 +528,9 @@
   <section id="portfolio">
     <div class="wrap">
       <div class="section-head fx-up">
-        <div class="eyebrow">Портфолио</div>
-        <h2>Шесть ниш — шесть разных характеров</h2>
-        <p class="prose">Переключайтесь между кейсами — сайты открываются прямо здесь, без перехода по ссылкам. Каждый действительно живой: жмите «Открыть в полный экран», если хотите посмотреть в реальном размере.</p>
+        <div class="eyebrow" data-i18n="nav.portfolio">Портфолио</div>
+        <h2 data-i18n="portfolio.h2">Шесть ниш — шесть разных характеров</h2>
+        <p class="prose" data-i18n="portfolio.prose">Переключайтесь между кейсами — сайты открываются прямо здесь, без перехода по ссылкам. Каждый действительно живой: жмите «Открыть в полный экран», если хотите посмотреть в реальном размере.</p>
       </div>
       <div class="case-viewer fx-up">
         <div class="case-tabs" id="caseTabs" role="tablist">
@@ -529,19 +541,19 @@
           <button class="case-tab" data-i="4" style="--p1:#ff1f3d;--p2:#c2102a;" role="tab" aria-selected="false"><span class="case-tab-dot"></span>APEX Training</button>
           <button class="case-tab" data-i="5" style="--p1:#8a9d5e;--p2:#454f2c;" role="tab" aria-selected="false"><span class="case-tab-dot"></span>ORTA</button>
         </div>
-        <div class="case-stage">
-          <div class="case-frame">
+        <div class="case-stage" id="caseStage">
+          <div class="case-frame" id="caseFrame">
             <div class="case-frame-chrome">
               <span class="cf-dots"><i></i><i></i><i></i></span>
               <span class="cf-url" id="caseUrl">wave-detailing.site</span>
-              <a class="cf-open" id="caseOpen" href="https://webdesign321321.github.io/carwash-website/" target="_blank" rel="noopener">Открыть ↗</a>
+              <a class="cf-open" id="caseOpen" href="https://webdesign321321.github.io/carwash-website/" target="_blank" rel="noopener" data-i18n="case.open">Открыть ↗</a>
             </div>
             <div class="case-frame-body" id="caseFrameBody" style="--pbg:#0a1420;--p1:#3ed9e8;--p2:#1aa6b8;">
               <div class="case-poster" id="casePoster"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
               <iframe class="case-iframe" id="caseIframe" title="Живой предпросмотр сайта" loading="lazy" referrerpolicy="no-referrer"></iframe>
               <div class="case-scroll-hint" id="caseScrollHint">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-                Прокрутите, чтобы посмотреть
+                <span data-i18n="case.scrollhint">Прокрутите, чтобы посмотреть</span>
               </div>
             </div>
           </div>
@@ -550,7 +562,7 @@
             <h3 id="caseTitle">WAVE Detailing</h3>
             <p id="caseDesc">Клиент сам двигает ползунок «было / стало» — и уговаривать его на детейлинг уже не нужно.</p>
             <a class="btn btn-ghost" id="caseOpenBtn" href="https://webdesign321321.github.io/carwash-website/" target="_blank" rel="noopener">
-              Открыть в полный экран
+              <span data-i18n="case.open.full">Открыть в полный экран</span>
               <span class="btn-arrow-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
             </a>
           </div>
@@ -563,15 +575,15 @@
     <div class="wrap two-col">
       <div class="fx-up">
         <div class="section-head" style="margin-bottom:28px;">
-          <div class="eyebrow">Процесс</div>
-          <h2>Как мы работаем</h2>
+          <div class="eyebrow" data-i18n="nav.process">Процесс</div>
+          <h2 data-i18n="process.h2">Как мы работаем</h2>
         </div>
       </div>
       <div class="principles fx-up">
-        <div class="p-item"><span class="p-num">01</span><div><h3>Заявка в WhatsApp</h3><p>Пишете — и в течение дня уже понятно, что именно делаем и сколько это займёт.</p></div></div>
-        <div class="p-item"><span class="p-num">02</span><div><h3>Дизайн-прототип</h3><p>Через 1–2 дня прилетает ссылка. Не макет в Figma — рабочий сайт, по которому можно кликать.</p></div></div>
-        <div class="p-item"><span class="p-num">03</span><div><h3>Правки</h3><p>Говорите, что не нравится — правим. Без деловой переписки на три абзаца.</p></div></div>
-        <div class="p-item"><span class="p-num">04</span><div><h3>Домен и запуск</h3><p>Покупаем домен, подключаем, публикуем — сайт живёт в интернете, а не в папке «Загрузки».</p></div></div>
+        <div class="p-item"><span class="p-num">01</span><div><h3 data-i18n="process.1.title">Заявка в WhatsApp</h3><p data-i18n="process.1.desc">Пишете — и в течение дня уже понятно, что именно делаем и сколько это займёт.</p></div></div>
+        <div class="p-item"><span class="p-num">02</span><div><h3 data-i18n="process.2.title">Дизайн-прототип</h3><p data-i18n="process.2.desc">Через 1–2 дня прилетает ссылка. Не макет в Figma — рабочий сайт, по которому можно кликать.</p></div></div>
+        <div class="p-item"><span class="p-num">03</span><div><h3 data-i18n="process.3.title">Правки</h3><p data-i18n="process.3.desc">Говорите, что не нравится — правим. Без деловой переписки на три абзаца.</p></div></div>
+        <div class="p-item"><span class="p-num">04</span><div><h3 data-i18n="process.4.title">Домен и запуск</h3><p data-i18n="process.4.desc">Покупаем домен, подключаем, публикуем — сайт живёт в интернете, а не в папке «Загрузки».</p></div></div>
       </div>
     </div>
   </section>
@@ -580,26 +592,26 @@
     <div class="wrap two-col">
       <div class="fx-up">
         <div class="section-head" style="margin-bottom:28px;">
-          <div class="eyebrow">Почему мы</div>
-          <h2>Четыре причины писать именно нам</h2>
+          <div class="eyebrow" data-i18n="why.eyebrow">Почему мы</div>
+          <h2 data-i18n="why.h2">Четыре причины писать именно нам</h2>
         </div>
       </div>
       <div class="principles fx-up">
-        <div class="p-item"><span class="p-num">01</span><div><h3>Не через неделю — послезавтра</h3><p>Пока конкурент ещё собирает бриф на созвоне, вы уже листаете готовый прототип.</p></div></div>
-        <div class="p-item"><span class="p-num">02</span><div><h3>Ваш бренд, не наш шаблон</h3><p>Пять кейсов в портфолио — и все пять выглядят и устроены по-разному.</p></div></div>
-        <div class="p-item"><span class="p-num">03</span><div><h3>Домен? Разберёмся</h3><p>Не знаете, что такое DNS и зачем он нужен, — и не должны. Возьмём на себя.</p></div></div>
-        <div class="p-item"><span class="p-num">04</span><div><h3>Пишете мне, а не в поддержку</h3><p>Ни ботов, ни отдела продаж между нами — все вопросы решаются в одном чате.</p></div></div>
+        <div class="p-item"><span class="p-num">01</span><div><h3 data-i18n="why.1.title">Не через неделю — послезавтра</h3><p data-i18n="why.1.desc">Пока конкурент ещё собирает бриф на созвоне, вы уже листаете готовый прототип.</p></div></div>
+        <div class="p-item"><span class="p-num">02</span><div><h3 data-i18n="why.2.title">Ваш бренд, не наш шаблон</h3><p data-i18n="why.2.desc">Шесть кейсов в портфолио — и все шесть выглядят и устроены по-разному.</p></div></div>
+        <div class="p-item"><span class="p-num">03</span><div><h3 data-i18n="why.3.title">Домен? Разберёмся</h3><p data-i18n="why.3.desc">Не знаете, что такое DNS и зачем он нужен, — и не должны. Возьмём на себя.</p></div></div>
+        <div class="p-item"><span class="p-num">04</span><div><h3 data-i18n="why.4.title">Пишете мне, а не в поддержку</h3><p data-i18n="why.4.desc">Ни ботов, ни отдела продаж между нами — все вопросы решаются в одном чате.</p></div></div>
       </div>
     </div>
   </section>
 
   <section class="cta-band">
     <div class="wrap fx-up">
-      <div class="eyebrow">Начнём?</div>
-      <h2 style="margin-top:10px;">Расскажите про свой бизнес — через пару дней увидите его сайт</h2>
-      <p class="prose">Автомойка, СТО, барбершоп, стоматология, качалка, магазин одежды — уже доказали, что говорим на языке любой ниши. Дальше — ваша.</p>
+      <div class="eyebrow" data-i18n="cta.eyebrow">Начнём?</div>
+      <h2 style="margin-top:10px;" data-i18n="cta.h2">Расскажите про свой бизнес — через пару дней увидите его сайт</h2>
+      <p class="prose" data-i18n="cta.prose">Автомойка, СТО, барбершоп, стоматология, качалка, магазин одежды — уже доказали, что говорим на языке любой ниши. Дальше — ваша.</p>
       <div class="hero-ctas">
-        <a class="btn btn-ice" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener">Написать в WhatsApp</a>
+        <a class="btn btn-ice" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener" data-i18n="common.whatsapp">Написать в WhatsApp</a>
       </div>
     </div>
   </section>
@@ -609,11 +621,11 @@
   <div class="wrap footer-row">
     <div class="footer-brand">
       <strong>VANTA</strong>
-      <p>Быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане.</p>
+      <p data-i18n="footer.desc">Быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане.</p>
     </div>
     <div class="footer-meta">
-      WhatsApp: <a href="https://wa.me/77476458557" target="_blank" rel="noopener">+7 747 645 85 57</a><br>
-      Instagram: <a href="https://www.instagram.com/vanta_web_design/" target="_blank" rel="noopener">@vanta_web_design</a>
+      <span data-i18n="footer.whatsappLabel">WhatsApp:</span> <a href="https://wa.me/77476458557" target="_blank" rel="noopener">+7 747 645 85 57</a><br>
+      <span data-i18n="footer.instagramLabel">Instagram:</span> <a href="https://www.instagram.com/vanta_web_design/" target="_blank" rel="noopener">@vanta_web_design</a>
     </div>
   </div>
 </footer>
@@ -621,6 +633,207 @@
 <script>
 (function(){
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============ I18N: RU / EN / KZ ============ */
+  var I18N = {
+    ru: {
+      'common.tagline': 'Веб-студия · Казахстан',
+      'common.whatsapp': 'Написать в WhatsApp',
+      'intro.skip': 'нажмите, чтобы пропустить',
+      'nav.services': 'Услуги',
+      'nav.portfolio': 'Портфолио',
+      'nav.process': 'Процесс',
+      'hero.h1': 'Сайты, которые<br><em>не выглядят как все</em>',
+      'hero.prose': 'Пока одни неделями ждут типовой шаблон с конструктора, мы за 3–5 дней собираем лендинг с настоящим характером — под вашу нишу, а не под чужую библиотеку блоков.',
+      'hero.cta2': 'Смотреть портфолио',
+      'hero.bignum.label': 'готовых прототипов под разные ниши бизнеса',
+      'services.h2': 'Что вы получаете',
+      'services.prose': 'Финальная стоимость — после короткого брифа в WhatsApp: зависит от объёма и того, что именно нужно клиенту. Ниже — стартовые цены. Нажмите на пункт, чтобы раскрыть детали.',
+      'svc.landing.title': 'Лендинг', 'svc.landing.price': 'от 25 000 ₸',
+      'svc.landing.item1': 'Дизайн-концепт под вашу нишу', 'svc.landing.item2': 'Анимации и адаптив под телефон',
+      'svc.landing.item3': 'Кнопка WhatsApp / форма заявки', 'svc.landing.item4': '1 бесплатная правка',
+      'svc.landing.time': '3–5 дней · цена зависит от объёма',
+      'svc.multi.title': 'Многостраничный сайт', 'svc.multi.price': 'от 50 000 ₸',
+      'svc.multi.item1': 'Несколько страниц и разделов', 'svc.multi.item2': 'Каталог услуг/товаров',
+      'svc.multi.item3': 'SEO-базовая настройка', 'svc.multi.time': '7–10 дней · цена зависит от объёма',
+      'svc.bot.title': 'Telegram-бот / автоматизация', 'svc.bot.price': 'от 25 000 ₸',
+      'svc.bot.item1': 'Приём заявок, уведомления', 'svc.bot.item2': 'Интеграция с таблицей/CRM',
+      'svc.bot.item3': 'Под ваш конкретный сценарий', 'svc.bot.time': 'по ТЗ',
+      'svc.shop.title': 'Интернет-магазин', 'svc.shop.price': 'от 100 000 ₸',
+      'svc.shop.item1': 'Каталог, корзина, оплата', 'svc.shop.item2': 'Админка для управления товарами',
+      'svc.shop.time': '10–14 дней',
+      'svc.domain.title': 'Помощь с доменом', 'svc.domain.price': '3 000–5 000 ₸',
+      'svc.domain.item1': 'Подбор и покупка домена', 'svc.domain.item2': 'Настройка и подключение к сайту',
+      'svc.domain.time': 'бесплатно в пакете',
+      'svc.redesign.title': 'Редизайн / правки', 'svc.redesign.price': 'по договорённости',
+      'svc.redesign.item1': 'Обновление существующего сайта', 'svc.redesign.item2': 'Новые анимации и разделы',
+      'svc.redesign.time': '1–3 дня',
+      'portfolio.h2': 'Шесть ниш — шесть разных характеров',
+      'portfolio.prose': 'Переключайтесь между кейсами — сайты открываются прямо здесь, без перехода по ссылкам. Каждый действительно живой: жмите «Открыть в полный экран», если хотите посмотреть в реальном размере.',
+      'case.open': 'Открыть ↗', 'case.open.full': 'Открыть в полный экран',
+      'case.scrollhint': 'Прокрутите, чтобы посмотреть',
+      'case.wave.niche': 'Автомойка · детейлинг', 'case.wave.desc': 'Клиент сам двигает ползунок «было / стало» — и уговаривать его на детейлинг уже не нужно.',
+      'case.garage.niche': 'СТО · автосервис', 'case.garage.desc': 'На экране бежит диагностика, как у настоящего сканера — доверие появляется ещё до звонка.',
+      'case.barber.niche': 'Барбершоп', 'case.barber.desc': 'Крутящаяся лента барбер-пола на фоне — мелочь, а сразу читается: сюда стригутся по-взрослому.',
+      'case.dental.niche': 'Стоматология', 'case.dental.desc': 'Путь от консультации до результата разложен по шагам — страх неизвестности испаряется до записи.',
+      'case.fitness.niche': 'Фитнес · MMA', 'case.fitness.desc': 'Текст со страницы будто выкрикивают со сцены — ровно та громкость, которую ждут от зала.',
+      'case.orta.niche': 'Магазин одежды', 'case.orta.desc': 'Капсульная коллекция без скидочных таймеров и «осталось 2 шт.» — только крой, ткани и понятный выбор размера.',
+      'process.h2': 'Как мы работаем',
+      'process.1.title': 'Заявка в WhatsApp', 'process.1.desc': 'Пишете — и в течение дня уже понятно, что именно делаем и сколько это займёт.',
+      'process.2.title': 'Дизайн-прототип', 'process.2.desc': 'Через 1–2 дня прилетает ссылка. Не макет в Figma — рабочий сайт, по которому можно кликать.',
+      'process.3.title': 'Правки', 'process.3.desc': 'Говорите, что не нравится — правим. Без деловой переписки на три абзаца.',
+      'process.4.title': 'Домен и запуск', 'process.4.desc': 'Покупаем домен, подключаем, публикуем — сайт живёт в интернете, а не в папке «Загрузки».',
+      'why.eyebrow': 'Почему мы', 'why.h2': 'Четыре причины писать именно нам',
+      'why.1.title': 'Не через неделю — послезавтра', 'why.1.desc': 'Пока конкурент ещё собирает бриф на созвоне, вы уже листаете готовый прототип.',
+      'why.2.title': 'Ваш бренд, не наш шаблон', 'why.2.desc': 'Шесть кейсов в портфолио — и все шесть выглядят и устроены по-разному.',
+      'why.3.title': 'Домен? Разберёмся', 'why.3.desc': 'Не знаете, что такое DNS и зачем он нужен, — и не должны. Возьмём на себя.',
+      'why.4.title': 'Пишете мне, а не в поддержку', 'why.4.desc': 'Ни ботов, ни отдела продаж между нами — все вопросы решаются в одном чате.',
+      'cta.eyebrow': 'Начнём?', 'cta.h2': 'Расскажите про свой бизнес — через пару дней увидите его сайт',
+      'cta.prose': 'Автомойка, СТО, барбершоп, стоматология, качалка, магазин одежды — уже доказали, что говорим на языке любой ниши. Дальше — ваша.',
+      'footer.desc': 'Быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане.',
+      'footer.whatsappLabel': 'WhatsApp:', 'footer.instagramLabel': 'Instagram:'
+    },
+    en: {
+      'common.tagline': 'Web studio · Kazakhstan',
+      'common.whatsapp': 'Message on WhatsApp',
+      'intro.skip': 'click to skip',
+      'nav.services': 'Services',
+      'nav.portfolio': 'Portfolio',
+      'nav.process': 'Process',
+      'hero.h1': 'Websites that<br><em>don’t look like the rest</em>',
+      'hero.prose': 'While others wait weeks for a generic page-builder template, we put together a landing page with real character in 3–5 days — built for your niche, not someone else’s block library.',
+      'hero.cta2': 'View portfolio',
+      'hero.bignum.label': 'ready-made prototypes across different business niches',
+      'services.h2': 'What you get',
+      'services.prose': 'Final pricing comes after a short WhatsApp brief — it depends on scope and exactly what you need. Below are starting prices. Click an item for details.',
+      'svc.landing.title': 'Landing page', 'svc.landing.price': 'from ₸25,000',
+      'svc.landing.item1': 'Design concept for your niche', 'svc.landing.item2': 'Animations and a mobile-responsive layout',
+      'svc.landing.item3': 'WhatsApp button / lead form', 'svc.landing.item4': '1 free revision',
+      'svc.landing.time': '3–5 days · price depends on scope',
+      'svc.multi.title': 'Multi-page website', 'svc.multi.price': 'from ₸50,000',
+      'svc.multi.item1': 'Several pages and sections', 'svc.multi.item2': 'Services/products catalog',
+      'svc.multi.item3': 'Basic SEO setup', 'svc.multi.time': '7–10 days · price depends on scope',
+      'svc.bot.title': 'Telegram bot / automation', 'svc.bot.price': 'from ₸25,000',
+      'svc.bot.item1': 'Accepts leads, sends notifications', 'svc.bot.item2': 'Spreadsheet/CRM integration',
+      'svc.bot.item3': 'Built around your exact scenario', 'svc.bot.time': 'scoped per brief',
+      'svc.shop.title': 'Online store', 'svc.shop.price': 'from ₸100,000',
+      'svc.shop.item1': 'Catalog, cart, payment', 'svc.shop.item2': 'Admin panel to manage products',
+      'svc.shop.time': '10–14 days',
+      'svc.domain.title': 'Domain help', 'svc.domain.price': '₸3,000–5,000',
+      'svc.domain.item1': 'Choosing and buying a domain', 'svc.domain.item2': 'Setting it up and connecting it to your site',
+      'svc.domain.time': 'free within a package',
+      'svc.redesign.title': 'Redesign / edits', 'svc.redesign.price': 'by agreement',
+      'svc.redesign.item1': 'Refresh of an existing site', 'svc.redesign.item2': 'New animations and sections',
+      'svc.redesign.time': '1–3 days',
+      'portfolio.h2': 'Six niches — six different personalities',
+      'portfolio.prose': 'Switch between cases — the sites open right here, no need to follow a link. Each one is genuinely live: click “Open fullscreen” to see it at real size.',
+      'case.open': 'Open ↗', 'case.open.full': 'Open fullscreen',
+      'case.scrollhint': 'Scroll to see more',
+      'case.wave.niche': 'Car wash · detailing', 'case.wave.desc': 'The customer drags the before/after slider themselves — no need to talk them into detailing anymore.',
+      'case.garage.niche': 'Auto repair shop', 'case.garage.desc': 'Live diagnostics scroll across the screen like a real scanner — trust builds before the call even happens.',
+      'case.barber.niche': 'Barbershop', 'case.barber.desc': 'A spinning barber-pole ribbon in the background — a small touch that instantly says: this is where grown men get their cut.',
+      'case.dental.niche': 'Dental clinic', 'case.dental.desc': 'The path from consultation to result is broken into clear steps — fear of the unknown fades before you even book.',
+      'case.fitness.niche': 'Fitness · MMA', 'case.fitness.desc': 'The copy reads like it’s being shouted from a stage — exactly the volume you’d expect from this gym.',
+      'case.orta.niche': 'Clothing store', 'case.orta.desc': 'A capsule collection with no discount timers or “only 2 left” — just cut, fabric, and a clear size guide.',
+      'process.h2': 'How we work',
+      'process.1.title': 'Message on WhatsApp', 'process.1.desc': 'You message us, and within a day it’s clear exactly what we’ll build and how long it’ll take.',
+      'process.2.title': 'Design prototype', 'process.2.desc': 'A link lands in 1–2 days. Not a Figma mockup — a working site you can actually click through.',
+      'process.3.title': 'Revisions', 'process.3.desc': 'Tell us what’s off — we fix it. No three-paragraph business correspondence.',
+      'process.4.title': 'Domain and launch', 'process.4.desc': 'We buy the domain, connect it, publish — the site lives on the internet, not in a Downloads folder.',
+      'why.eyebrow': 'Why us', 'why.h2': 'Four reasons to message us, specifically',
+      'why.1.title': 'Not in a week — the day after tomorrow', 'why.1.desc': 'While a competitor is still gathering a brief on a call, you’re already scrolling through a finished prototype.',
+      'why.2.title': 'Your brand, not our template', 'why.2.desc': 'Six cases in the portfolio — and all six look and work differently.',
+      'why.3.title': 'Domain? We’ll handle it', 'why.3.desc': 'You don’t need to know what DNS is or why it matters — we’ve got it covered.',
+      'why.4.title': 'You message me, not a support line', 'why.4.desc': 'No bots, no sales department in between — every question gets solved in one chat.',
+      'cta.eyebrow': 'Ready to start?', 'cta.h2': 'Tell us about your business — see its website in a couple of days',
+      'cta.prose': 'Car wash, auto shop, barbershop, dental clinic, gym, clothing store — we’ve already proven we speak the language of any niche. Yours is next.',
+      'footer.desc': 'Fast websites, landing pages, and Telegram bots for small businesses in Kazakhstan.',
+      'footer.whatsappLabel': 'WhatsApp:', 'footer.instagramLabel': 'Instagram:'
+    },
+    kz: {
+      'common.tagline': 'Веб-студия · Қазақстан',
+      'common.whatsapp': 'WhatsApp-қа жазу',
+      'intro.skip': 'өткізу үшін басыңыз',
+      'nav.services': 'Қызметтер',
+      'nav.portfolio': 'Портфолио',
+      'nav.process': 'Жұмыс барысы',
+      'hero.h1': 'Сайттар,<br><em>бәрі сияқты емес</em>',
+      'hero.prose': 'Басқалары конструктордан дайын үлгіні апталап күтеді, ал біз 3–5 күнде — сіздің нишаңызға арналған, нағыз мінезі бар лендинг жасаймыз, бөтеннің блок кітапханасына емес.',
+      'hero.cta2': 'Портфолионы қарау',
+      'hero.bignum.label': 'бизнестің әртүрлі бағыттарына арналған дайын прототип',
+      'services.h2': 'Сіз не аласыз',
+      'services.prose': 'Соңғы баға — WhatsApp-тағы қысқа брифтен кейін белгілі болады: көлемге және нақты не керек екеніне байланысты. Төменде — бастапқы бағалар. Толық ақпарат үшін тармақты басыңыз.',
+      'svc.landing.title': 'Лендинг', 'svc.landing.price': '25 000 ₸-ден',
+      'svc.landing.item1': 'Сіздің нишаңызға сай дизайн-концепт', 'svc.landing.item2': 'Телефонға бейімделген адаптив пен анимациялар',
+      'svc.landing.item3': 'WhatsApp түймесі / өтінім формасы', 'svc.landing.item4': '1 тегін түзету',
+      'svc.landing.time': '3–5 күн · баға көлемге байланысты',
+      'svc.multi.title': 'Көп беттік сайт', 'svc.multi.price': '50 000 ₸-ден',
+      'svc.multi.item1': 'Бірнеше бет пен бөлім', 'svc.multi.item2': 'Қызметтер/тауарлар каталогы',
+      'svc.multi.item3': 'Негізгі SEO баптауы', 'svc.multi.time': '7–10 күн · баға көлемге байланысты',
+      'svc.bot.title': 'Telegram-бот / автоматтандыру', 'svc.bot.price': '25 000 ₸-ден',
+      'svc.bot.item1': 'Өтінімдерді қабылдау, хабарландырулар', 'svc.bot.item2': 'Кестемен/CRM-мен интеграция',
+      'svc.bot.item3': 'Сіздің нақты сценарийіңізге сай', 'svc.bot.time': 'ТЗ бойынша',
+      'svc.shop.title': 'Интернет-дүкен', 'svc.shop.price': '100 000 ₸-ден',
+      'svc.shop.item1': 'Каталог, себет, төлем', 'svc.shop.item2': 'Тауарларды басқаруға арналған админ-панель',
+      'svc.shop.time': '10–14 күн',
+      'svc.domain.title': 'Домен бойынша көмек', 'svc.domain.price': '3 000–5 000 ₸',
+      'svc.domain.item1': 'Доменді таңдау және сатып алу', 'svc.domain.item2': 'Сайтқа баптау және қосу',
+      'svc.domain.time': 'пакет ішінде тегін',
+      'svc.redesign.title': 'Редизайн / түзетулер', 'svc.redesign.price': 'келісім бойынша',
+      'svc.redesign.item1': 'Бар сайтты жаңарту', 'svc.redesign.item2': 'Жаңа анимациялар мен бөлімдер',
+      'svc.redesign.time': '1–3 күн',
+      'portfolio.h2': 'Алты сала — алты түрлі мінез',
+      'portfolio.prose': 'Кейстер арасында ауысыңыз — сайттар дәл осы жерде ашылады, сілтемеге өтудің қажеті жоқ. Әрқайсысы шынымен тірі: нақты өлшемде көру үшін «Толық экранда ашу» түймесін басыңыз.',
+      'case.open': 'Ашу ↗', 'case.open.full': 'Толық экранда ашу',
+      'case.scrollhint': 'Көру үшін айналдырыңыз',
+      'case.wave.niche': 'Автокөлік жуу · детейлинг', 'case.wave.desc': 'Клиент «дейін/кейін» жүгірткішін өзі жылжытады — оны детейлингке көндірудің қажеті жоқ.',
+      'case.garage.niche': 'СТО · автосервис', 'case.garage.desc': 'Экранда нағыз сканер сияқты диагностика жүгіреді — хабарласпай тұрып-ақ сенім пайда болады.',
+      'case.barber.niche': 'Барбершоп', 'case.barber.desc': 'Фондағы айналып тұрған барбер-бағана таспасы — кішкентай штрих, бірақ бірден түсінікті: мұнда есейгендер қиылады.',
+      'case.dental.niche': 'Стоматология', 'case.dental.desc': 'Кеңесуден нәтижеге дейінгі жол қадам-қадаммен көрсетілген — белгісіздіктен қорқу жазылымға дейін-ақ жоғалады.',
+      'case.fitness.niche': 'Фитнес · MMA', 'case.fitness.desc': 'Беттегі мәтін сахнадан айқайлап тұрғандай оқылады — залдан күтетін дәл сол қаттылықпен.',
+      'case.orta.niche': 'Киім дүкені', 'case.orta.desc': 'Жеңілдік таймерлерінсіз және «2 дана ғана қалды» дегенсіз капсулалық коллекция — тек пішім, мата және түсінікті өлшем таңдауы.',
+      'process.h2': 'Біз қалай жұмыс істейміз',
+      'process.1.title': 'WhatsApp-қа жазу', 'process.1.desc': 'Жазасыз — сол күні-ақ нақты не істейтініміз және қанша уақыт кететіні белгілі болады.',
+      'process.2.title': 'Дизайн-прототип', 'process.2.desc': '1–2 күннен кейін сілтеме келеді. Figma-дағы макет емес — басуға болатын жұмыс істейтін сайт.',
+      'process.3.title': 'Түзетулер', 'process.3.desc': 'Не ұнамағанын айтасыз — түзетеміз. Үш абзацтық іскерлік хат алмасусыз.',
+      'process.4.title': 'Домен және іске қосу', 'process.4.desc': 'Доменді сатып аламыз, қосамыз, жариялаймыз — сайт «Жүктеулер» қалтасында емес, интернетте өмір сүреді.',
+      'why.eyebrow': 'Неге біз', 'why.h2': 'Дәл бізге жазудың төрт себебі',
+      'why.1.title': 'Аптадан кейін емес — бүрсігүні', 'why.1.desc': 'Бәсекелес әлі қоңырауда брифті жинап жатқанда, сіз дайын прототипті қарап отырасыз.',
+      'why.2.title': 'Сіздің брендіңіз, біздің үлгі емес', 'why.2.desc': 'Портфолиода алты кейс бар — және алтауы да мүлдем әртүрлі көрінеді әрі құрылған.',
+      'why.3.title': 'Домен ме? Біз шешеміз', 'why.3.desc': 'DNS дегеніміз не және ол не үшін керек екенін білмеуіңіз мүмкін — солай болу керек те. Біз өз мойнымызға аламыз.',
+      'why.4.title': 'Қолдау қызметіне емес, маған жазасыз', 'why.4.desc': 'Арамызда боттар да, сату бөлімі де жоқ — барлық сұрақ бір чатта шешіледі.',
+      'cta.eyebrow': 'Бастаймыз ба?', 'cta.h2': 'Бизнесіңіз туралы айтып беріңіз — бірнеше күннен кейін оның сайтын көресіз',
+      'cta.prose': 'Автомойка, СТО, барбершоп, стоматология, спортзал, киім дүкені — кез келген саланың тілінде сөйлей алатынымызды дәлелдедік. Кезек сіздікі.',
+      'footer.desc': 'Қазақстандағы шағын бизнеске арналған жылдам сайттар, лендингтер және Telegram-боттар.',
+      'footer.whatsappLabel': 'WhatsApp:', 'footer.instagramLabel': 'Instagram:'
+    }
+  };
+  var currentLang = 'ru';
+  try { currentLang = localStorage.getItem('vanta_lang') || 'ru'; } catch(e){}
+  function t(key){
+    var dict = I18N[currentLang] || I18N.ru;
+    return (key in dict) ? dict[key] : (I18N.ru[key] || key);
+  }
+  function applyLang(lang){
+    currentLang = I18N[lang] ? lang : 'ru';
+    document.documentElement.lang = currentLang === 'kz' ? 'kk' : currentLang;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      el.textContent = t(el.getAttribute('data-i18n'));
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+      el.innerHTML = t(el.getAttribute('data-i18n-html'));
+    });
+    document.querySelectorAll('#langSwitch button').forEach(function(b){
+      b.classList.toggle('is-active', b.dataset.lang === currentLang);
+    });
+    try { localStorage.setItem('vanta_lang', currentLang); } catch(e){}
+    if(typeof refreshActiveCaseText === 'function') refreshActiveCaseText();
+  }
+  document.getElementById('langSwitch').addEventListener('click', function(e){
+    var btn = e.target.closest('button');
+    if(!btn) return;
+    applyLang(btn.dataset.lang);
+  });
 
   /* intro veil — plays once per browser tab session */
   var veil = document.getElementById('introVeil');
@@ -654,34 +867,60 @@
 
   /* portfolio: live embedded case viewer */
   var CASES = [
-    {title:'WAVE Detailing', niche:'Автомойка · детейлинг', url:'https://webdesign321321.github.io/carwash-website/', displayUrl:'wave-detailing.site', desc:'Клиент сам двигает ползунок «было / стало» — и уговаривать его на детейлинг уже не нужно.', pbg:'#0a1420', p1:'#3ed9e8', p2:'#1aa6b8'},
-    {title:'GARAGE 24', niche:'СТО · автосервис', url:'https://webdesign321321.github.io/sto-website/', displayUrl:'garage24.site', desc:'На экране бежит диагностика, как у настоящего сканера — доверие появляется ещё до звонка.', pbg:'#121417', p1:'#ffb020', p2:'#d68c0a'},
-    {title:'SHARP Barbershop', niche:'Барбершоп', url:'https://webdesign321321.github.io/barbershop-website/', displayUrl:'sharp-barbershop.site', desc:'Крутящаяся лента барбер-пола на фоне — мелочь, а сразу читается: сюда стригутся по-взрослому.', pbg:'#120e0b', p1:'#c7a25c', p2:'#8a1f2b'},
-    {title:'PRIMA Dental', niche:'Стоматология', url:'https://webdesign321321.github.io/dental-website/', displayUrl:'prima-dental.site', desc:'Путь от консультации до результата разложен по шагам — страх неизвестности испаряется до записи.', pbg:'#0a1412', p1:'#4fe0c2', p2:'#1fa98a'},
-    {title:'APEX Training', niche:'Фитнес · MMA', url:'https://webdesign321321.github.io/fitness-website/', displayUrl:'apex-training.site', desc:'Текст со страницы будто выкрикивают со сцены — ровно та громкость, которую ждут от зала.', pbg:'#0a0a0b', p1:'#ff1f3d', p2:'#c2102a'},
-    {title:'ORTA', niche:'Магазин одежды', url:'https://webdesign321321.github.io/clothing-website/', displayUrl:'orta.site', desc:'Капсульная коллекция без скидочных таймеров и «осталось 2 шт.» — только крой, ткани и понятный выбор размера.', pbg:'#ededE7', p1:'#8a9d5e', p2:'#454f2c'}
+    {key:'wave', title:'WAVE Detailing', url:'https://webdesign321321.github.io/carwash-website/', displayUrl:'wave-detailing.site', img:'previews/wave.jpg', pbg:'#0a1420', p1:'#3ed9e8', p2:'#1aa6b8'},
+    {key:'garage', title:'GARAGE 24', url:'https://webdesign321321.github.io/sto-website/', displayUrl:'garage24.site', img:'previews/garage.jpg', pbg:'#121417', p1:'#ffb020', p2:'#d68c0a'},
+    {key:'barber', title:'SHARP Barbershop', url:'https://webdesign321321.github.io/barbershop-website/', displayUrl:'sharp-barbershop.site', img:'previews/barber.jpg', pbg:'#120e0b', p1:'#c7a25c', p2:'#8a1f2b'},
+    {key:'dental', title:'PRIMA Dental', url:'https://webdesign321321.github.io/dental-website/', displayUrl:'prima-dental.site', img:'previews/dental.jpg', pbg:'#0a1412', p1:'#4fe0c2', p2:'#1fa98a'},
+    {key:'fitness', title:'APEX Training', url:'https://webdesign321321.github.io/fitness-website/', displayUrl:'apex-training.site', img:'previews/fitness.jpg', pbg:'#0a0a0b', p1:'#ff1f3d', p2:'#c2102a'},
+    {key:'orta', title:'ORTA', url:'https://webdesign321321.github.io/clothing-website/', displayUrl:'orta.site', img:'previews/orta.jpg', pbg:'#ededE7', p1:'#8a9d5e', p2:'#454f2c'}
   ];
+
+  /* hero preview rail — built from the same CASES data + real screenshots, doubled for a seamless loop */
+  var railTrack = document.getElementById('previewRail');
+  if(railTrack){
+    var track = document.createElement('div');
+    track.className = 'preview-rail-track';
+    [0, 1].forEach(function(){
+      CASES.forEach(function(c){
+        var card = document.createElement('div');
+        card.className = 'rail-card';
+        card.innerHTML =
+          '<div class="rail-chrome"><i></i><i></i><i></i><span>' + c.displayUrl + '</span></div>' +
+          '<div class="rail-canvas"><img src="' + c.img + '" alt="" loading="lazy"></div>';
+        track.appendChild(card);
+      });
+    });
+    railTrack.appendChild(track);
+  }
+
   var caseTabs = document.getElementById('caseTabs');
+  var caseFrame = document.getElementById('caseFrame');
+  var caseStage = document.getElementById('caseStage');
   var frameBody = document.getElementById('caseFrameBody');
   var caseIframe = document.getElementById('caseIframe');
   var caseScrollHint = document.getElementById('caseScrollHint');
   var caseInitialized = false;
+  var activeCaseIndex = 0;
   function activateCase(i){
     caseInitialized = true;
+    activeCaseIndex = i;
     var c = CASES[i];
-    document.querySelectorAll('.case-tab').forEach(function(t, ti){
-      t.classList.toggle('is-active', ti === i);
-      t.setAttribute('aria-selected', ti === i ? 'true' : 'false');
+    document.querySelectorAll('.case-tab').forEach(function(tb, ti){
+      tb.classList.toggle('is-active', ti === i);
+      tb.setAttribute('aria-selected', ti === i ? 'true' : 'false');
     });
     document.getElementById('caseUrl').textContent = c.displayUrl;
     document.getElementById('caseOpen').href = c.url;
     document.getElementById('caseOpenBtn').href = c.url;
-    document.getElementById('caseNiche').textContent = c.niche;
+    document.getElementById('caseNiche').textContent = t('case.' + c.key + '.niche');
     document.getElementById('caseTitle').textContent = c.title;
-    document.getElementById('caseDesc').textContent = c.desc;
+    document.getElementById('caseDesc').textContent = t('case.' + c.key + '.desc');
     frameBody.style.setProperty('--pbg', c.pbg);
     frameBody.style.setProperty('--p1', c.p1);
     frameBody.style.setProperty('--p2', c.p2);
+    caseStage.style.setProperty('--p1', c.p1);
+    caseStage.style.setProperty('--p2', c.p2);
+    caseFrame.classList.add('is-tinted');
     caseScrollHint.classList.remove('show');
     if(caseIframe.src === c.url){
       frameBody.classList.add('is-loaded');
@@ -694,6 +933,12 @@
       caseIframe.classList.remove('is-loaded');
       caseIframe.src = c.url;
     }
+  }
+  function refreshActiveCaseText(){
+    if(!caseInitialized) return;
+    var c = CASES[activeCaseIndex];
+    document.getElementById('caseNiche').textContent = t('case.' + c.key + '.niche');
+    document.getElementById('caseDesc').textContent = t('case.' + c.key + '.desc');
   }
   caseIframe.addEventListener('load', function(){
     frameBody.classList.add('is-loaded');
@@ -721,6 +966,9 @@
       activateCase(0);
     }
   }
+
+  /* apply the saved/default language now that t() and the case refresh hook exist */
+  applyLang(currentLang);
 
   /* section nav: highlight the section currently in view */
   var navLinks = document.querySelectorAll('.section-nav a');
