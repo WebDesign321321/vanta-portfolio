@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050506">
-<meta name="description" content="VANTA — быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане. Портфолио, цены, связь через WhatsApp.">
+<meta name="description" content="VANTA — быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане. Портфолио живых кейсов, цены, связь через WhatsApp.">
 <title>VANTA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +33,7 @@
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+  html{scroll-behavior:smooth;}
   body{
     margin:0;
     background:var(--void-950);
@@ -43,7 +43,6 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    max-width:100vw;
     position:relative;
   }
   body::before{
@@ -105,6 +104,28 @@
     transition:height .08s linear;
   }
   @media (max-width:700px){ .scroll-rail{display:none;} }
+
+  /* ============ INTRO VEIL (plays once per session) ============ */
+  .intro-veil{
+    position:fixed;inset:0;z-index:300;
+    background:var(--void-950);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    cursor:pointer;
+    transition:transform .7s var(--ease-out), opacity .6s var(--ease-out);
+  }
+  .intro-veil.intro-exit{transform:translateY(-100%);opacity:0;}
+  .intro-veil[hidden]{display:none;}
+  .intro-mark{display:flex;align-items:center;gap:16px;}
+  .intro-glyph{width:14px;height:14px;border-radius:50%;background:var(--ice-500);box-shadow:0 0 24px 4px rgba(79,210,255,.7);opacity:0;transform:scale(.3);animation:introGlyph .6s var(--ease-spring) .1s forwards;}
+  @keyframes introGlyph{to{opacity:1;transform:scale(1);}}
+  .intro-word{font-family:var(--font-display);font-weight:800;font-size:clamp(2.4rem,8vw,4.5rem);letter-spacing:.02em;display:flex;color:var(--spark-100);}
+  .intro-word span{display:inline-block;opacity:0;transform:translateY(24px);animation:introLetter .6s var(--ease-out) forwards;}
+  @keyframes introLetter{to{opacity:1;transform:translateY(0);}}
+  .intro-line{width:0;height:2px;background:linear-gradient(90deg,var(--ice-400),var(--ice-700));margin:22px 0;animation:introLine .7s var(--ease-out) .7s forwards;}
+  @keyframes introLine{to{width:120px;}}
+  .intro-tag{font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--spark-600);opacity:0;animation:introTag .6s var(--ease-out) .95s forwards;}
+  @keyframes introTag{to{opacity:1;}}
+  .intro-skip{position:absolute;bottom:36px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--spark-600);opacity:0;animation:introTag .6s var(--ease-out) 1.3s forwards;}
 
   .btn{
     display:inline-flex;align-items:center;gap:8px;
@@ -222,49 +243,43 @@
   .m-time{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--spark-600);}
   .price-note{margin-top:22px;font-family:var(--font-mono);font-size:12.5px;color:var(--spark-600);}
 
-  /* ============ PORTFOLIO: horizontal scroll gallery ============ */
-  .gallery-shell{position:relative;}
-  .gallery{
-    display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
-    padding-bottom:14px;margin:0 -24px;padding-inline:24px;
-    scrollbar-width:none;
+  /* ============ PORTFOLIO: live embedded case viewer ============ */
+  .case-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:24px;scrollbar-width:none;}
+  .case-tabs::-webkit-scrollbar{display:none;}
+  .case-tab{
+    flex:none;display:flex;align-items:center;gap:8px;
+    font-family:var(--font-body);font-weight:700;font-size:13.5px;
+    padding:10px 16px;border-radius:999px;border:1px solid var(--void-700);
+    background:rgba(255,255,255,.03);color:var(--spark-400);cursor:pointer;
+    transition:background .3s var(--ease-out), color .3s var(--ease-out);
   }
-  .gallery::-webkit-scrollbar{display:none;}
-  .gallery-card{
-    flex:0 0 78%;scroll-snap-align:start;text-decoration:none;
-    border-radius:20px;border:1px solid var(--void-700);background:var(--void-900);overflow:hidden;
-  }
-  @media (min-width:640px){ .gallery-card{flex:0 0 46%;} }
-  @media (min-width:1000px){ .gallery-card{flex:0 0 31%;} }
-  .g-preview{position:relative;}
-  .g-chrome{display:flex;align-items:center;gap:6px;padding:10px 12px;background:rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06);}
-  .g-chrome i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);display:block;}
-  .g-url{margin-left:8px;font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,.35);}
-  .g-canvas{height:140px;position:relative;overflow:hidden;background:var(--pbg);}
-  .g-blob{position:absolute;top:-30%;right:-15%;width:70%;height:140%;background:radial-gradient(circle, var(--p1), transparent 65%);opacity:.5;filter:blur(6px);}
-  .g-nav{position:absolute;top:14px;left:16px;right:16px;height:6px;border-radius:4px;background:rgba(255,255,255,.08);}
-  .g-hero{position:absolute;left:16px;right:40%;top:44px;display:flex;flex-direction:column;gap:8px;}
-  .g-line{height:9px;border-radius:3px;background:linear-gradient(90deg,var(--p1),var(--p2));}
-  .g-line.w1{width:100%;} .g-line.w2{width:72%;opacity:.75;}
-  .g-btn{margin-top:6px;width:64px;height:16px;border-radius:999px;background:linear-gradient(135deg,var(--p1),var(--p2));}
-  .g-info{padding:22px 22px 24px;}
-  .g-top{display:flex;justify-content:space-between;gap:10px;}
-  .g-info h3{font-size:18px;font-weight:700;font-family:var(--font-body);}
-  .g-niche{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--spark-600);margin-top:4px;}
-  .g-info p{margin-top:14px;font-size:14px;color:var(--spark-400);}
-  .g-link{margin-top:16px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;color:var(--ice-400);}
-  .g-link svg{width:12px;height:12px;transition:transform .3s var(--ease-out);}
-  .gallery-card:hover .g-link svg{transform:translate(3px,-3px);}
-
-  .gallery-arrows{display:none;justify-content:flex-end;gap:10px;margin-top:18px;}
-  @media (min-width:700px){ .gallery-arrows{display:flex;} }
-  .g-arrow{
-    width:44px;height:44px;border-radius:50%;border:1px solid var(--void-700);
-    background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;
-    cursor:pointer;transition:background .25s var(--ease-out), transform .45s var(--ease-spring);
-  }
-  .g-arrow:hover{background:rgba(255,255,255,.08);}
-  .g-arrow svg{width:16px;height:16px;}
+  .case-tab-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));flex:none;}
+  .case-tab.is-active{background:rgba(255,255,255,.09);color:var(--spark-100);}
+  .case-stage{display:grid;grid-template-columns:1.6fr 1fr;gap:32px;align-items:start;}
+  @media (max-width:900px){ .case-stage{grid-template-columns:1fr;} }
+  .case-frame{border-radius:18px;border:1px solid var(--void-700);background:var(--void-900);overflow:hidden;}
+  .case-frame-chrome{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(0,0,0,.35);border-bottom:1px solid rgba(255,255,255,.06);}
+  .cf-dots{display:flex;gap:5px;flex:none;}
+  .cf-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);display:block;}
+  .cf-url{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,.4);flex:1;}
+  .cf-open{font-family:var(--font-mono);font-size:11px;color:var(--ice-400);text-decoration:none;white-space:nowrap;}
+  .case-frame-body{position:relative;aspect-ratio:16/10;background:var(--pbg);overflow:hidden;}
+  @media (max-width:560px){ .case-frame-body{aspect-ratio:4/5;} }
+  .case-poster{position:absolute;inset:0;transition:opacity .5s var(--ease-out);}
+  .case-frame-body.is-loaded .case-poster{opacity:0;}
+  .case-poster .g-blob{position:absolute;top:-30%;right:-15%;width:70%;height:140%;background:radial-gradient(circle, var(--p1), transparent 65%);opacity:.5;filter:blur(8px);}
+  .case-poster .g-nav{position:absolute;top:16px;left:18px;right:18px;height:7px;border-radius:4px;background:rgba(255,255,255,.08);}
+  .case-poster .g-hero{position:absolute;left:18px;right:45%;top:48px;display:flex;flex-direction:column;gap:9px;}
+  .case-poster .g-line{height:10px;border-radius:3px;background:linear-gradient(90deg,var(--p1),var(--p2));}
+  .case-poster .g-line.w1{width:100%;} .case-poster .g-line.w2{width:70%;opacity:.75;}
+  .case-poster .g-btn{margin-top:8px;width:74px;height:18px;border-radius:999px;background:linear-gradient(135deg,var(--p1),var(--p2));}
+  .case-iframe{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity .5s var(--ease-out);}
+  .case-iframe.is-loaded{opacity:1;}
+  .case-meta{padding-top:6px;}
+  .case-meta h3{font-size:22px;font-weight:700;font-family:var(--font-body);margin-top:6px;}
+  .case-meta .case-niche{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--spark-600);}
+  .case-meta p{margin-top:14px;font-size:14.5px;color:var(--spark-400);line-height:1.7;}
+  .case-meta .btn{margin-top:22px;}
 
   /* ============ WHY + PROCESS: quiet numbered lists, no cards ============ */
   .principles{display:flex;flex-direction:column;}
@@ -306,6 +321,16 @@
 </style>
 </head>
 <body>
+
+<div class="intro-veil" id="introVeil" aria-hidden="true">
+  <div class="intro-mark">
+    <span class="intro-glyph"></span>
+    <span class="intro-word" id="introWord">VANTA</span>
+  </div>
+  <div class="intro-line"></div>
+  <div class="intro-tag">Веб-студия · Казахстан</div>
+  <div class="intro-skip">нажмите, чтобы пропустить</div>
+</div>
 
 <a href="#top" class="brand-mark"><span class="dot"></span><strong>VANTA</strong></a>
 <a class="cta-fab" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener">
@@ -356,38 +381,38 @@
       <div class="section-head fx-up">
         <div class="eyebrow">Услуги</div>
         <h2>Что вы получаете</h2>
-        <p class="prose">Цены ориентировочные — финальная стоимость после короткого брифа в WhatsApp, зависит от объёма и ниши. Нажмите на пункт, чтобы раскрыть детали.</p>
+        <p class="prose">Финальная стоимость — после короткого брифа в WhatsApp: зависит от объёма и того, что именно нужно клиенту. Ниже — стартовые цены. Нажмите на пункт, чтобы раскрыть детали.</p>
       </div>
       <div class="manifesto fx-up" id="manifesto">
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">01</span>
             <span class="m-title">Лендинг</span>
-            <span class="m-price">от 80 000 ₸</span>
+            <span class="m-price">от 25 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
             <ul><li>Дизайн-концепт под вашу нишу</li><li>Анимации и адаптив под телефон</li><li>Кнопка WhatsApp / форма заявки</li><li>1 бесплатная правка</li></ul>
-            <span class="m-time">3–5 дней</span>
+            <span class="m-time">3–5 дней · цена зависит от объёма</span>
           </div></div></div>
         </div>
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">02</span>
             <span class="m-title">Многостраничный сайт</span>
-            <span class="m-price">от 150 000 ₸</span>
+            <span class="m-price">от 50 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
             <ul><li>Несколько страниц и разделов</li><li>Каталог услуг/товаров</li><li>SEO-базовая настройка</li></ul>
-            <span class="m-time">7–10 дней</span>
+            <span class="m-time">7–10 дней · цена зависит от объёма</span>
           </div></div></div>
         </div>
         <div class="m-row">
           <div class="m-row-head">
             <span class="m-num">03</span>
             <span class="m-title">Telegram-бот / автоматизация</span>
-            <span class="m-price">от 60 000 ₸</span>
+            <span class="m-price">от 25 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
@@ -399,7 +424,7 @@
           <div class="m-row-head">
             <span class="m-num">04</span>
             <span class="m-title">Интернет-магазин</span>
-            <span class="m-price">от 220 000 ₸</span>
+            <span class="m-price">от 100 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
@@ -411,7 +436,7 @@
           <div class="m-row-head">
             <span class="m-num">05</span>
             <span class="m-title">Помощь с доменом</span>
-            <span class="m-price">от 10 000 ₸</span>
+            <span class="m-price">3 000–5 000 ₸</span>
             <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="m-body"><div class="m-body-inner"><div class="m-body-pad">
@@ -440,69 +465,37 @@
       <div class="section-head fx-up">
         <div class="eyebrow">Портфолио</div>
         <h2>Пять ниш — пять разных характеров</h2>
-        <p class="prose">Каждый сайт ниже собран с нуля под свою нишу: своя архитектура страницы, палитра и фирменная деталь, которую больше нигде не встретите. Листайте вбок.</p>
+        <p class="prose">Переключайтесь между кейсами — сайты открываются прямо здесь, без перехода по ссылкам. Каждый действительно живой: жмите «Открыть в полный экран», если хотите посмотреть в реальном размере.</p>
       </div>
-      <div class="gallery-shell fx-up">
-        <div class="gallery" id="gallery">
-          <a class="gallery-card" href="https://webdesign321321.github.io/carwash-website/" target="_blank" rel="noopener">
-            <div class="g-preview">
-              <div class="g-chrome"><i></i><i></i><i></i><span class="g-url">wave-detailing.site</span></div>
-              <div class="g-canvas" style="--pbg:#0a1420;--p1:#3ed9e8;--p2:#1aa6b8;"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
-            </div>
-            <div class="g-info">
-              <div class="g-top"><div><h3>WAVE Detailing</h3><div class="g-niche">Автомойка · детейлинг</div></div></div>
-              <p>Клиент сам двигает ползунок «было / стало» — и уговаривать его на детейлинг уже не нужно.</p>
-              <span class="g-link">Смотреть сайт <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
-            </div>
-          </a>
-          <a class="gallery-card" href="https://webdesign321321.github.io/sto-website/" target="_blank" rel="noopener">
-            <div class="g-preview">
-              <div class="g-chrome"><i></i><i></i><i></i><span class="g-url">garage24.site</span></div>
-              <div class="g-canvas" style="--pbg:#121417;--p1:#ffb020;--p2:#d68c0a;"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
-            </div>
-            <div class="g-info">
-              <div class="g-top"><div><h3>GARAGE 24</h3><div class="g-niche">СТО · автосервис</div></div></div>
-              <p>На экране бежит диагностика, как у настоящего сканера — доверие появляется ещё до звонка.</p>
-              <span class="g-link">Смотреть сайт <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
-            </div>
-          </a>
-          <a class="gallery-card" href="https://webdesign321321.github.io/barbershop-website/" target="_blank" rel="noopener">
-            <div class="g-preview">
-              <div class="g-chrome"><i></i><i></i><i></i><span class="g-url">sharp-barbershop.site</span></div>
-              <div class="g-canvas" style="--pbg:#120e0b;--p1:#c7a25c;--p2:#8a1f2b;"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
-            </div>
-            <div class="g-info">
-              <div class="g-top"><div><h3>SHARP Barbershop</h3><div class="g-niche">Барбершоп</div></div></div>
-              <p>Крутящаяся лента барбер-пола на фоне — мелочь, а сразу читается: сюда стригутся по-взрослому.</p>
-              <span class="g-link">Смотреть сайт <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
-            </div>
-          </a>
-          <a class="gallery-card" href="https://webdesign321321.github.io/dental-website/" target="_blank" rel="noopener">
-            <div class="g-preview">
-              <div class="g-chrome"><i></i><i></i><i></i><span class="g-url">prima-dental.site</span></div>
-              <div class="g-canvas" style="--pbg:#0a1412;--p1:#4fe0c2;--p2:#1fa98a;"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
-            </div>
-            <div class="g-info">
-              <div class="g-top"><div><h3>PRIMA Dental</h3><div class="g-niche">Стоматология</div></div></div>
-              <p>Путь от консультации до результата разложен по шагам — страх неизвестности испаряется до записи.</p>
-              <span class="g-link">Смотреть сайт <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
-            </div>
-          </a>
-          <a class="gallery-card" href="https://webdesign321321.github.io/fitness-website/" target="_blank" rel="noopener">
-            <div class="g-preview">
-              <div class="g-chrome"><i></i><i></i><i></i><span class="g-url">apex-training.site</span></div>
-              <div class="g-canvas" style="--pbg:#0a0a0b;--p1:#ff1f3d;--p2:#c2102a;"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
-            </div>
-            <div class="g-info">
-              <div class="g-top"><div><h3>APEX Training</h3><div class="g-niche">Фитнес · MMA</div></div></div>
-              <p>Текст со страницы будто выкрикивают со сцены — ровно та громкость, которую ждут от зала.</p>
-              <span class="g-link">Смотреть сайт <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
-            </div>
-          </a>
+      <div class="case-viewer fx-up">
+        <div class="case-tabs" id="caseTabs" role="tablist">
+          <button class="case-tab is-active" data-i="0" style="--p1:#3ed9e8;--p2:#1aa6b8;" role="tab" aria-selected="true"><span class="case-tab-dot"></span>WAVE Detailing</button>
+          <button class="case-tab" data-i="1" style="--p1:#ffb020;--p2:#d68c0a;" role="tab" aria-selected="false"><span class="case-tab-dot"></span>GARAGE 24</button>
+          <button class="case-tab" data-i="2" style="--p1:#c7a25c;--p2:#8a1f2b;" role="tab" aria-selected="false"><span class="case-tab-dot"></span>SHARP Barbershop</button>
+          <button class="case-tab" data-i="3" style="--p1:#4fe0c2;--p2:#1fa98a;" role="tab" aria-selected="false"><span class="case-tab-dot"></span>PRIMA Dental</button>
+          <button class="case-tab" data-i="4" style="--p1:#ff1f3d;--p2:#c2102a;" role="tab" aria-selected="false"><span class="case-tab-dot"></span>APEX Training</button>
         </div>
-        <div class="gallery-arrows">
-          <button class="g-arrow" id="g-prev" aria-label="Предыдущий кейс"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-          <button class="g-arrow" id="g-next" aria-label="Следующий кейс"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="case-stage">
+          <div class="case-frame">
+            <div class="case-frame-chrome">
+              <span class="cf-dots"><i></i><i></i><i></i></span>
+              <span class="cf-url" id="caseUrl">wave-detailing.site</span>
+              <a class="cf-open" id="caseOpen" href="https://webdesign321321.github.io/carwash-website/" target="_blank" rel="noopener">Открыть ↗</a>
+            </div>
+            <div class="case-frame-body" id="caseFrameBody" style="--pbg:#0a1420;--p1:#3ed9e8;--p2:#1aa6b8;">
+              <div class="case-poster" id="casePoster"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
+              <iframe class="case-iframe" id="caseIframe" title="Живой предпросмотр сайта" loading="lazy" referrerpolicy="no-referrer"></iframe>
+            </div>
+          </div>
+          <div class="case-meta">
+            <div class="case-niche" id="caseNiche">Автомойка · детейлинг</div>
+            <h3 id="caseTitle">WAVE Detailing</h3>
+            <p id="caseDesc">Клиент сам двигает ползунок «было / стало» — и уговаривать его на детейлинг уже не нужно.</p>
+            <a class="btn btn-ghost" id="caseOpenBtn" href="https://webdesign321321.github.io/carwash-website/" target="_blank" rel="noopener">
+              Открыть в полный экран
+              <span class="btn-arrow-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -573,6 +566,98 @@
 (function(){
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* intro veil — plays once per browser tab session */
+  var veil = document.getElementById('introVeil');
+  var introSeen = false;
+  try { introSeen = sessionStorage.getItem('vanta_intro_seen') === '1'; } catch(e){}
+  if(reduceMotion || introSeen){
+    veil.hidden = true;
+  } else {
+    document.documentElement.style.overflow = 'hidden';
+    var wordEl = document.getElementById('introWord');
+    var text = wordEl.textContent;
+    wordEl.textContent = '';
+    text.split('').forEach(function(ch, i){
+      var span = document.createElement('span');
+      span.textContent = ch;
+      span.style.animationDelay = (0.25 + i * 0.05) + 's';
+      wordEl.appendChild(span);
+    });
+    var exited = false;
+    function exitIntro(){
+      if(exited) return;
+      exited = true;
+      veil.classList.add('intro-exit');
+      document.documentElement.style.overflow = '';
+      try { sessionStorage.setItem('vanta_intro_seen', '1'); } catch(e){}
+      setTimeout(function(){ veil.hidden = true; }, 750);
+    }
+    veil.addEventListener('click', exitIntro);
+    setTimeout(exitIntro, 2200);
+  }
+
+  /* portfolio: live embedded case viewer */
+  var CASES = [
+    {title:'WAVE Detailing', niche:'Автомойка · детейлинг', url:'https://webdesign321321.github.io/carwash-website/', displayUrl:'wave-detailing.site', desc:'Клиент сам двигает ползунок «было / стало» — и уговаривать его на детейлинг уже не нужно.', pbg:'#0a1420', p1:'#3ed9e8', p2:'#1aa6b8'},
+    {title:'GARAGE 24', niche:'СТО · автосервис', url:'https://webdesign321321.github.io/sto-website/', displayUrl:'garage24.site', desc:'На экране бежит диагностика, как у настоящего сканера — доверие появляется ещё до звонка.', pbg:'#121417', p1:'#ffb020', p2:'#d68c0a'},
+    {title:'SHARP Barbershop', niche:'Барбершоп', url:'https://webdesign321321.github.io/barbershop-website/', displayUrl:'sharp-barbershop.site', desc:'Крутящаяся лента барбер-пола на фоне — мелочь, а сразу читается: сюда стригутся по-взрослому.', pbg:'#120e0b', p1:'#c7a25c', p2:'#8a1f2b'},
+    {title:'PRIMA Dental', niche:'Стоматология', url:'https://webdesign321321.github.io/dental-website/', displayUrl:'prima-dental.site', desc:'Путь от консультации до результата разложен по шагам — страх неизвестности испаряется до записи.', pbg:'#0a1412', p1:'#4fe0c2', p2:'#1fa98a'},
+    {title:'APEX Training', niche:'Фитнес · MMA', url:'https://webdesign321321.github.io/fitness-website/', displayUrl:'apex-training.site', desc:'Текст со страницы будто выкрикивают со сцены — ровно та громкость, которую ждут от зала.', pbg:'#0a0a0b', p1:'#ff1f3d', p2:'#c2102a'}
+  ];
+  var caseTabs = document.getElementById('caseTabs');
+  var frameBody = document.getElementById('caseFrameBody');
+  var caseIframe = document.getElementById('caseIframe');
+  var caseInitialized = false;
+  function activateCase(i){
+    caseInitialized = true;
+    var c = CASES[i];
+    document.querySelectorAll('.case-tab').forEach(function(t, ti){
+      t.classList.toggle('is-active', ti === i);
+      t.setAttribute('aria-selected', ti === i ? 'true' : 'false');
+    });
+    document.getElementById('caseUrl').textContent = c.displayUrl;
+    document.getElementById('caseOpen').href = c.url;
+    document.getElementById('caseOpenBtn').href = c.url;
+    document.getElementById('caseNiche').textContent = c.niche;
+    document.getElementById('caseTitle').textContent = c.title;
+    document.getElementById('caseDesc').textContent = c.desc;
+    frameBody.style.setProperty('--pbg', c.pbg);
+    frameBody.style.setProperty('--p1', c.p1);
+    frameBody.style.setProperty('--p2', c.p2);
+    if(caseIframe.src === c.url){
+      frameBody.classList.add('is-loaded');
+      caseIframe.classList.add('is-loaded');
+    } else {
+      frameBody.classList.remove('is-loaded');
+      caseIframe.classList.remove('is-loaded');
+      caseIframe.src = c.url;
+    }
+  }
+  caseIframe.addEventListener('load', function(){
+    frameBody.classList.add('is-loaded');
+    caseIframe.classList.add('is-loaded');
+  });
+  if(caseTabs){
+    caseTabs.addEventListener('click', function(e){
+      var btn = e.target.closest('.case-tab');
+      if(!btn) return;
+      activateCase(parseInt(btn.dataset.i, 10));
+    });
+  }
+  var portfolioSection = document.getElementById('portfolio');
+  if(portfolioSection){
+    if('IntersectionObserver' in window){
+      var caseIo = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting && !caseInitialized){ activateCase(0); caseIo.disconnect(); }
+        });
+      }, {rootMargin:'200px'});
+      caseIo.observe(portfolioSection);
+    } else {
+      activateCase(0);
+    }
+  }
+
   /* scroll rail progress */
   var railFill = document.getElementById('rail-fill');
   function updateRail(){
@@ -608,18 +693,6 @@
       if(!wasOpen) row.classList.add('is-open');
     });
   });
-
-  /* portfolio gallery arrow controls */
-  var gallery = document.getElementById('gallery');
-  var prev = document.getElementById('g-prev');
-  var next = document.getElementById('g-next');
-  function scrollByCard(dir){
-    var card = gallery.querySelector('.gallery-card');
-    var amount = card ? (card.getBoundingClientRect().width + 20) * dir : 300 * dir;
-    gallery.scrollBy({left: amount, behavior: reduceMotion ? 'auto' : 'smooth'});
-  }
-  if(prev) prev.addEventListener('click', function(){ scrollByCard(-1); });
-  if(next) next.addEventListener('click', function(){ scrollByCard(1); });
 
   if(window.gsap){
     gsap.registerPlugin(ScrollTrigger);
