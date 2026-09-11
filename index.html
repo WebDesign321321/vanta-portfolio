@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050506">
 <meta name="description" content="VANTA — быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане. Портфолио живых кейсов, цены, связь через WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VANTA">
+<meta property="og:title" content="VANTA — сайты, которые не выглядят как все">
+<meta property="og:description" content="Быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане. 6 живых кейсов в портфолио.">
+<meta property="og:image" content="https://webdesign321321.github.io/vanta-portfolio/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VANTA — сайты, которые не выглядят как все">
+<meta name="twitter:description" content="Быстрые сайты, лендинги и Telegram-боты для малого бизнеса в Казахстане.">
+<meta name="twitter:image" content="https://webdesign321321.github.io/vanta-portfolio/og-image.png">
 <title>VANTA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,6 +104,21 @@
   .cta-fab svg{width:16px;height:16px;flex:none;}
   .cta-fab .fab-label{display:none;}
   @media (min-width:560px){ .cta-fab .fab-label{display:inline;} }
+
+  .section-nav{
+    position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:70;
+    display:flex;gap:2px;
+    background:rgba(255,255,255,.04);border:1px solid var(--void-700);
+    border-radius:999px;padding:6px;backdrop-filter:blur(12px);
+  }
+  .section-nav a{
+    font-family:var(--font-mono);font-size:12px;color:var(--spark-400);
+    padding:8px 15px;border-radius:999px;white-space:nowrap;text-decoration:none;
+    transition:color .25s ease,background .25s ease;
+  }
+  .section-nav a:hover{color:var(--spark-100);}
+  .section-nav a.is-active{color:var(--spark-100);background:rgba(255,255,255,.08);}
+  @media (max-width:860px){ .section-nav{display:none;} }
 
   .scroll-rail{
     position:fixed;top:0;right:0;bottom:0;width:3px;z-index:65;
@@ -244,7 +270,11 @@
   .price-note{margin-top:22px;font-family:var(--font-mono);font-size:12.5px;color:var(--spark-600);}
 
   /* ============ PORTFOLIO: live embedded case viewer ============ */
-  .case-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:24px;scrollbar-width:none;}
+  .case-tabs{
+    display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:24px;scrollbar-width:none;
+    mask-image:linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent);
+    -webkit-mask-image:linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent);
+  }
   .case-tabs::-webkit-scrollbar{display:none;}
   .case-tab{
     flex:none;display:flex;align-items:center;gap:8px;
@@ -263,8 +293,24 @@
   .cf-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);display:block;}
   .cf-url{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,.4);flex:1;}
   .cf-open{font-family:var(--font-mono);font-size:11px;color:var(--ice-400);text-decoration:none;white-space:nowrap;}
-  .case-frame-body{position:relative;aspect-ratio:16/10;background:var(--pbg);overflow:hidden;}
-  @media (max-width:560px){ .case-frame-body{aspect-ratio:4/5;} }
+  .case-frame-body{position:relative;aspect-ratio:4/3.1;background:var(--pbg);overflow:hidden;}
+  @media (max-width:560px){ .case-frame-body{aspect-ratio:3/4;} }
+  .case-scroll-hint{
+    position:absolute;left:50%;bottom:16px;z-index:3;
+    display:flex;align-items:center;gap:7px;
+    background:rgba(5,5,6,.6);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.14);border-radius:999px;
+    padding:9px 15px;font-family:var(--font-mono);font-size:11px;color:var(--spark-100);
+    opacity:0;pointer-events:none;
+    transform:translate(-50%,0);
+  }
+  .case-scroll-hint svg{width:12px;height:12px;flex:none;}
+  .case-scroll-hint.show{
+    opacity:1;
+    animation:caseHintBob 1.6s ease-in-out 2, caseHintFade .6s ease 3.6s forwards;
+  }
+  @keyframes caseHintBob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,4px);}}
+  @keyframes caseHintFade{to{opacity:0;}}
   .case-poster{position:absolute;inset:0;transition:opacity .5s var(--ease-out);}
   .case-frame-body.is-loaded .case-poster{opacity:0;}
   .case-poster .g-blob{position:absolute;top:-30%;right:-15%;width:70%;height:140%;background:radial-gradient(circle, var(--p1), transparent 65%);opacity:.5;filter:blur(8px);}
@@ -333,6 +379,11 @@
 </div>
 
 <a href="#top" class="brand-mark"><span class="dot"></span><strong>VANTA</strong></a>
+<nav class="section-nav" aria-label="Разделы">
+  <a href="#services" data-section="services">Услуги</a>
+  <a href="#portfolio" data-section="portfolio">Портфолио</a>
+  <a href="#process" data-section="process">Процесс</a>
+</nav>
 <a class="cta-fab" href="https://wa.me/77476458557?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82." target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5c1.5.9 3.3 1.4 5.2 1.4 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.1c-1.6 0-3.2-.5-4.5-1.3l-.3-.2-3.1 1 1-3-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5zm4.6-6.3c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.4-1.9-.1-.2 0-.4.1-.5.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10.2 9.4 9.7 8.2 9.5 7.7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
   <span class="fab-label">WhatsApp</span>
@@ -488,6 +539,10 @@
             <div class="case-frame-body" id="caseFrameBody" style="--pbg:#0a1420;--p1:#3ed9e8;--p2:#1aa6b8;">
               <div class="case-poster" id="casePoster"><div class="g-blob"></div><div class="g-nav"></div><div class="g-hero"><div class="g-line w1"></div><div class="g-line w2"></div><div class="g-btn"></div></div></div>
               <iframe class="case-iframe" id="caseIframe" title="Живой предпросмотр сайта" loading="lazy" referrerpolicy="no-referrer"></iframe>
+              <div class="case-scroll-hint" id="caseScrollHint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                Прокрутите, чтобы посмотреть
+              </div>
             </div>
           </div>
           <div class="case-meta">
@@ -563,8 +618,6 @@
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 (function(){
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -611,6 +664,7 @@
   var caseTabs = document.getElementById('caseTabs');
   var frameBody = document.getElementById('caseFrameBody');
   var caseIframe = document.getElementById('caseIframe');
+  var caseScrollHint = document.getElementById('caseScrollHint');
   var caseInitialized = false;
   function activateCase(i){
     caseInitialized = true;
@@ -628,9 +682,13 @@
     frameBody.style.setProperty('--pbg', c.pbg);
     frameBody.style.setProperty('--p1', c.p1);
     frameBody.style.setProperty('--p2', c.p2);
+    caseScrollHint.classList.remove('show');
     if(caseIframe.src === c.url){
       frameBody.classList.add('is-loaded');
       caseIframe.classList.add('is-loaded');
+      /* restart the hint animation for the freshly-selected tab */
+      void caseScrollHint.offsetWidth;
+      caseScrollHint.classList.add('show');
     } else {
       frameBody.classList.remove('is-loaded');
       caseIframe.classList.remove('is-loaded');
@@ -640,6 +698,8 @@
   caseIframe.addEventListener('load', function(){
     frameBody.classList.add('is-loaded');
     caseIframe.classList.add('is-loaded');
+    void caseScrollHint.offsetWidth;
+    caseScrollHint.classList.add('show');
   });
   if(caseTabs){
     caseTabs.addEventListener('click', function(e){
@@ -660,6 +720,24 @@
     } else {
       activateCase(0);
     }
+  }
+
+  /* section nav: highlight the section currently in view */
+  var navLinks = document.querySelectorAll('.section-nav a');
+  if(navLinks.length && 'IntersectionObserver' in window){
+    var navSections = Array.prototype.map.call(navLinks, function(a){
+      return document.getElementById(a.dataset.section);
+    }).filter(Boolean);
+    var navIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          navLinks.forEach(function(a){
+            a.classList.toggle('is-active', a.dataset.section === en.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    navSections.forEach(function(s){ navIo.observe(s); });
   }
 
   /* scroll rail progress */
@@ -698,20 +776,29 @@
     });
   });
 
-  if(window.gsap){
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray('.fx-up').forEach(function(el){
-      ScrollTrigger.create({
-        trigger: el, start: 'top 85%',
-        onEnter: function(){ el.classList.add('is-visible'); },
-        once: true
+  /* scroll reveal — plain IntersectionObserver, no animation library */
+  if(reduceMotion || !('IntersectionObserver' in window)){
+    document.querySelectorAll('.fx-up').forEach(function(el){ el.classList.add('is-visible'); });
+  } else {
+    var revealIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('is-visible'); revealIo.unobserve(en.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    document.querySelectorAll('.fx-up').forEach(function(el){ revealIo.observe(el); });
+
+    /* hero: small staggered entrance for the two split columns */
+    document.querySelectorAll('.hero-split > div').forEach(function(el, i){
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity .8s cubic-bezier(0.16,1,0.3,1) ' + (i * 0.1) + 's, transform .8s cubic-bezier(0.16,1,0.3,1) ' + (i * 0.1) + 's';
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
       });
     });
-    gsap.from('.hero-split > div', {
-      opacity:0, y:20, duration: reduceMotion ? 0.01 : 0.9, stagger:0.1, ease:'power3.out'
-    });
-  } else {
-    document.querySelectorAll('.fx-up').forEach(function(el){ el.classList.add('is-visible'); });
   }
 })();
 </script>
